@@ -3,362 +3,584 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Последний просмотр</title>
+
+<title>АККУРАТНЕЕ — Night Babka</title>
 
 <style>
 * {
     box-sizing: border-box;
 }
 
-body {
+html, body {
     margin: 0;
-    background: #020303;
-    color: #a8b0aa;
-    font-family: monospace;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    padding: 0;
+    background: #030303;
+    color: #d0d0d0;
+    font-family: Georgia, "Times New Roman", serif;
 }
 
-#app {
-    width: min(1100px, 94vw);
+body {
+    overflow-x: hidden;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    color: #657067;
-    font-size: 13px;
-    margin-bottom: 10px;
-}
+/* Фон */
 
-.camera {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background:
-        radial-gradient(circle at 52% 42%, #26352e 0%, #101713 28%, #050706 65%, #010202 100%);
-    overflow: hidden;
-    border: 1px solid #252d28;
-    box-shadow: 0 0 40px #000 inset;
-}
-
-.camera::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            transparent 0px,
-            transparent 3px,
-            rgba(255,255,255,.025) 4px
-        );
-    pointer-events: none;
-    z-index: 5;
-}
-
-.camera::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse, transparent 45%, rgba(0,0,0,.75));
-    pointer-events: none;
-    z-index: 4;
-}
-
-.road {
-    position: absolute;
-    left: 25%;
-    right: 25%;
-    bottom: -10%;
-    height: 75%;
-    background: linear-gradient(to bottom, #121916, #050606);
-    clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
-}
-
-.light {
-    position: absolute;
-    top: 14%;
-    left: 50%;
-    width: 16px;
-    height: 16px;
-    background: #b5c39c;
-    border-radius: 50%;
-    box-shadow: 0 0 25px 8px rgba(170,190,140,.35);
-    transform: translateX(-50%);
-}
-
-.light::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 10px;
-    width: 170px;
-    height: 310px;
-    transform: translateX(-50%);
-    background: linear-gradient(to bottom, rgba(170,190,140,.12), transparent);
-    clip-path: polygon(47% 0, 53% 0, 100% 100%, 0 100%);
-}
-
-.fog {
-    position: absolute;
-    inset: 20% -20%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(160,180,165,.07),
-        transparent
-    );
-    filter: blur(20px);
-    animation: fog 8s linear infinite alternate;
-}
-
-@keyframes fog {
-    from { transform: translateX(-8%); }
-    to { transform: translateX(8%); }
-}
-
-.figure {
-    position: absolute;
-    bottom: 31%;
-    left: 50%;
-    width: 18px;
-    height: 55px;
-    background: #020202;
-    border-radius: 45% 45% 15% 15%;
-    transform: translateX(-50%) scale(1);
-    opacity: 0;
-    transition: all 2s ease;
-    z-index: 3;
-}
-
-.figure::before {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: #020202;
-    border-radius: 50%;
-    top: -16px;
-    left: -1px;
-}
-
-.figure.show {
-    opacity: .9;
-}
-
-.figure.near {
-    transform: translateX(-50%) scale(3.8);
-    bottom: 28%;
-}
-
-.noise {
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,.025);
-    opacity: 0;
-    z-index: 6;
-    pointer-events: none;
-}
-
-.glitch {
-    animation: glitch .15s steps(2) 3;
-}
-
-@keyframes glitch {
-    0% { transform: translate(0); }
-    30% { transform: translate(-4px, 2px); }
-    60% { transform: translate(4px, -1px); }
-    100% { transform: translate(0); }
-}
-
-.info {
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    color: #69736c;
-    font-size: 12px;
-}
-
-.status {
-    color: #9eaa9f;
-}
-
-button {
-    margin-top: 18px;
-    width: 100%;
-    padding: 15px;
-    background: #080b09;
-    border: 1px solid #303a33;
-    color: #aab4aa;
-    font-family: monospace;
-    cursor: pointer;
-    letter-spacing: 2px;
-}
-
-button:hover {
-    background: #101611;
-    border-color: #647267;
-}
-
-#ending {
-    display: none;
-    text-align: center;
-    padding: 35px 10px;
-    color: #c0c8c0;
-    letter-spacing: 2px;
-}
-
-#ending strong {
-    display: block;
-    font-size: clamp(20px, 4vw, 34px);
-    margin-bottom: 18px;
-    color: #d1d8d1;
-}
-
-#observer {
-    display: none;
+#background {
     position: fixed;
     inset: 0;
-    background: #000;
-    color: #9da89f;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-family: monospace;
-    z-index: 100;
+    z-index: -2;
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            #181818 0%,
+            #080808 45%,
+            #020202 100%
+        );
+
+    transition: background 4s ease;
 }
 
-#observer div {
-    max-width: 700px;
-    padding: 30px;
+/* Туман */
+
+#fog {
+    position: fixed;
+    inset: -30%;
+    z-index: -1;
+
+    opacity: 0;
+
+    background:
+        radial-gradient(
+            ellipse at 30% 60%,
+            rgba(150,150,150,0.08),
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 70% 45%,
+            rgba(150,150,150,0.06),
+            transparent 35%
+        );
+
+    filter: blur(25px);
+
+    transition: opacity 4s ease;
+
+    animation: fogMove 18s ease-in-out infinite alternate;
 }
 
-#observer .big {
-    font-size: clamp(20px, 4vw, 40px);
-    color: #c6cec7;
-    margin-bottom: 25px;
+@keyframes fogMove {
+    from {
+        transform: translateX(-3%);
+    }
+
+    to {
+        transform: translateX(3%);
+    }
+}
+
+
+/* Основная область */
+
+main {
+    width: min(760px, calc(100% - 40px));
+
+    margin: auto;
+
+    padding-top: 18vh;
+    padding-bottom: 60vh;
+}
+
+
+/* Night Babka */
+
+.brand {
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+
+    letter-spacing: 5px;
+
+    color: #555;
+}
+
+
+/* Заголовок */
+
+h1 {
+    margin-top: 25px;
+    margin-bottom: 18vh;
+
+    font-size: clamp(38px, 9vw, 72px);
+
+    font-weight: normal;
+
+    letter-spacing: 7px;
+
+    color: #cfcfcf;
+}
+
+
+/* Строки истории */
+
+.story-line {
+
+    font-size: clamp(20px, 4.5vw, 29px);
+
+    line-height: 1.85;
+
+    margin-bottom: 1.4em;
+
+    opacity: 0;
+
+    transform: translateY(25px);
+
+    transition:
+        opacity 1.8s ease,
+        transform 1.8s ease,
+        color 2s ease;
+}
+
+
+.story-line.visible {
+
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* Особые строки */
+
+.whisper {
+
+    color: #999;
+
+    font-style: italic;
+}
+
+
+.danger {
+
+    color: #aaa;
+}
+
+
+/* Собака */
+
+#dog {
+
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 9vh;
+
+    width: 100px;
+
+    height: 62px;
+
+    background: #050505;
+
+    border-radius: 50%;
+
+    transform:
+        translateX(-50%)
+        scale(0.7);
+
+    opacity: 0;
+
+    transition:
+        opacity 3s ease,
+        transform 3s ease;
+
+    box-shadow:
+        0 28px 0 -17px #050505;
+
+    z-index: 2;
+}
+
+
+/* Уши */
+
+#dog::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 30px;
+    height: 35px;
+
+    left: 4px;
+    top: -13px;
+
+    background: #050505;
+
+    transform: rotate(-25deg);
+
+}
+
+
+#dog::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 30px;
+    height: 35px;
+
+    right: 4px;
+    top: -13px;
+
+    background: #050505;
+
+    transform: rotate(25deg);
+
+}
+
+
+/* Глаза */
+
+#dog-eyes {
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    left: 25px;
+    top: 25px;
+
+    background: #777;
+
+    border-radius: 50%;
+
+    box-shadow:
+        43px 0 #777,
+        0 0 8px #777,
+        43px 0 8px #777;
+}
+
+
+/* Появление собаки */
+
+#dog.visible {
+
+    opacity: 0.95;
+
+    transform:
+        translateX(-50%)
+        scale(1);
+}
+
+
+/* Финальная фраза */
+
+#ending {
+
+    margin-top: 25vh;
+
+    padding-top: 12vh;
+
+    border-top: 1px solid rgba(255,255,255,0.05);
+
+    font-size: clamp(18px, 4vw, 24px);
+
+    line-height: 1.8;
+
+    color: #777;
+
+    opacity: 0;
+
+    transition: opacity 5s ease;
+}
+
+
+#ending.visible {
+
+    opacity: 1;
 }
 </style>
+
 </head>
+
 
 <body>
 
-<div id="app">
 
-    <div class="header">
-        <span>CAMERA 03</span>
-        <span id="record">REC ●</span>
+<div id="background"></div>
+
+<div id="fog"></div>
+
+<div id="dog">
+    <div id="dog-eyes"></div>
+</div>
+
+
+<main>
+
+    <div class="brand">
+        NIGHT BABKA
     </div>
 
-    <div class="camera" id="camera">
-        <div class="road"></div>
-        <div class="light"></div>
-        <div class="fog"></div>
-        <div class="figure" id="figure"></div>
-        <div class="noise" id="noise"></div>
-    </div>
 
-    <div class="info">
-        <span id="time">02:17:43</span>
-        <span class="status">ЗАПИСЬ АРХИВА</span>
-    </div>
+    <h1>
+        АККУРАТНЕЕ
+    </h1>
 
-    <button id="rewind">ПЕРЕМОТАТЬ НАЗАД</button>
+
+    <div id="story"></div>
+
 
     <div id="ending">
-        <strong>ЗАПИСЬ ОКОНЧЕНА</strong>
-        НАБЛЮДАТЕЛЬ ОБНАРУЖЕН.
-        <button id="watch">ПОСМОТРЕТЬ, КТО НАБЛЮДАЛ</button>
+
+        P.S. Я тогда ещё не знал,
+        кого именно он просил меня остерегаться…
+
     </div>
 
-</div>
+</main>
 
-<div id="observer">
-    <div>
-        <div class="big">НАБЛЮДАТЕЛЬ ОБНАРУЖЕН</div>
-        <div id="finalText">
-            Камера больше не смотрит на дорогу.
-        </div>
-    </div>
-</div>
 
 <script>
 
-const rewind = document.getElementById("rewind");
-const figure = document.getElementById("figure");
-const camera = document.getElementById("camera");
-const noise = document.getElementById("noise");
-const time = document.getElementById("time");
-const ending = document.getElementById("ending");
-const watch = document.getElementById("watch");
-const observer = document.getElementById("observer");
 
-let step = 0;
+/* Текст истории */
 
-rewind.addEventListener("click", () => {
+const story = [
 
-    step++;
+    "Я вышел из-за угла и, идя по двору, навстречу мне быстро прошёл человек.",
 
-    camera.classList.remove("glitch");
-    void camera.offsetWidth;
-    camera.classList.add("glitch");
+    "Я узнал его лицо.",
 
-    noise.style.opacity = ".25";
+    "Это было моё лицо.",
 
-    setTimeout(() => {
-        noise.style.opacity = "0";
-    }, 180);
+    "Он прошёл мимо и шепнул:",
 
-    if (step === 1) {
-        time.textContent = "02:16:58";
-        figure.classList.add("show");
-    }
+    "— Аккуратнее.",
 
-    if (step === 2) {
-        time.textContent = "02:16:11";
-        figure.classList.add("near");
-    }
+    "Я обернулся.",
 
-    if (step === 3) {
-        time.textContent = "02:15:42";
+    "В темноте, не сводя с меня мутных глаз и тихо рыча, сидел старый дворовый пёс.",
+
+    "Я замер.",
+
+    "И понял, что страх уже внутри."
+
+];
+
+
+const storyContainer =
+    document.getElementById("story");
+
+
+const fog =
+    document.getElementById("fog");
+
+
+const dog =
+    document.getElementById("dog");
+
+
+const background =
+    document.getElementById("background");
+
+
+const ending =
+    document.getElementById("ending");
+
+
+/* Вывод текста */
+
+let index = 0;
+
+
+function showNextLine() {
+
+    if (index >= story.length) {
 
         setTimeout(() => {
-            figure.classList.remove("near");
-            figure.style.left = "57%";
-        }, 800);
+
+            ending.classList.add("visible");
+
+        }, 3000);
+
+        return;
     }
 
-    if (step >= 4) {
 
-        rewind.style.display = "none";
+    const paragraph =
+        document.createElement("div");
 
-        time.textContent = "--:--:--";
-        document.getElementById("record").textContent = "REC OFF";
 
-        setTimeout(() => {
-            ending.style.display = "block";
-        }, 1800);
+    paragraph.classList.add("story-line");
+
+
+    /*
+       Особые строки
+    */
+
+    if (index === 4) {
+
+        paragraph.classList.add("whisper");
+
     }
 
-});
 
-watch.addEventListener("click", () => {
+    if (
+        index === 1 ||
+        index === 2 ||
+        index === 7 ||
+        index === 8
+    ) {
 
-    observer.style.display = "flex";
+        paragraph.classList.add("danger");
+
+    }
+
+
+    paragraph.textContent =
+        story[index];
+
+
+    storyContainer.appendChild(
+        paragraph
+    );
+
+
+    /* Плавное появление */
 
     setTimeout(() => {
-        document.getElementById("finalText").innerHTML =
-        "Последний кадр был записан<br><br>" +
-        "<strong>не камерой.</strong>";
-    }, 2500);
 
-});
+        paragraph.classList.add("visible");
+
+
+        paragraph.scrollIntoView({
+
+            behavior: "smooth",
+
+            block: "center"
+
+        });
+
+
+    }, 100);
+
+
+    /*
+       Постепенно появляется туман
+    */
+
+    if (index >= 1) {
+
+        fog.style.opacity = "0.25";
+
+    }
+
+
+    if (index >= 3) {
+
+        fog.style.opacity = "0.45";
+
+    }
+
+
+    /*
+       После фразы
+       "Я обернулся."
+    */
+
+    if (index === 5) {
+
+        fog.style.opacity = "0.7";
+
+    }
+
+
+    /*
+       Появление собаки
+    */
+
+    if (index === 6) {
+
+        setTimeout(() => {
+
+            dog.classList.add("visible");
+
+        }, 1000);
+
+    }
+
+
+    /*
+       Последняя часть
+    */
+
+    if (index >= 7) {
+
+        fog.style.opacity = "0.9";
+
+        background.style.background =
+            "#020202";
+
+    }
+
+
+    index++;
+
+
+    /*
+       Пауза между абзацами
+    */
+
+    let delay = 3500;
+
+
+    /*
+       Перед "Аккуратнее"
+       делаем паузу подольше
+    */
+
+    if (index === 4) {
+
+        delay = 5000;
+
+    }
+
+
+    /*
+       Перед собакой ещё длиннее
+    */
+
+    if (index === 6) {
+
+        delay = 5000;
+
+    }
+
+
+    setTimeout(
+        showNextLine,
+        delay
+    );
+
+}
+
+
+/*
+   Начало истории
+*/
+
+setTimeout(
+    showNextLine,
+    2500
+);
+
 
 </script>
+
 
 </body>
 </html>
