@@ -14,51 +14,52 @@
 html, body {
     margin: 0;
     padding: 0;
-    background: #030303;
+    background: #020202;
     color: #d0d0d0;
-    font-family: Georgia, "Times New Roman", serif;
 }
 
 body {
+    font-family: Georgia, "Times New Roman", serif;
     overflow-x: hidden;
 }
 
-/* Фон */
+/* ФОН */
 
 #background {
     position: fixed;
     inset: 0;
-    z-index: -2;
+    z-index: -5;
 
     background:
         radial-gradient(
-            circle at 50% 40%,
-            #181818 0%,
-            #080808 45%,
-            #020202 100%
+            ellipse at 50% 45%,
+            #151515 0%,
+            #070707 45%,
+            #010101 100%
         );
 
-    transition: background 4s ease;
+    transition: 4s ease;
 }
 
-/* Туман */
+
+/* ТУМАН */
 
 #fog {
     position: fixed;
     inset: -30%;
-    z-index: -1;
+    z-index: -3;
 
     opacity: 0;
 
     background:
         radial-gradient(
-            ellipse at 30% 60%,
-            rgba(150,150,150,0.08),
+            ellipse at 25% 65%,
+            rgba(150,150,150,.08),
             transparent 35%
         ),
         radial-gradient(
-            ellipse at 70% 45%,
-            rgba(150,150,150,0.06),
+            ellipse at 75% 45%,
+            rgba(130,130,130,.06),
             transparent 35%
         );
 
@@ -66,79 +67,83 @@ body {
 
     transition: opacity 4s ease;
 
-    animation: fogMove 18s ease-in-out infinite alternate;
+    animation: fogMove 20s ease-in-out infinite alternate;
 }
 
 @keyframes fogMove {
+
     from {
-        transform: translateX(-3%);
+        transform: translateX(-4%);
     }
 
     to {
-        transform: translateX(3%);
+        transform: translateX(4%);
     }
+
 }
 
 
-/* Основная область */
+/* КОНТЕНТ */
 
 main {
+
     width: min(760px, calc(100% - 40px));
 
     margin: auto;
 
-    padding-top: 18vh;
+    padding-top: 15vh;
     padding-bottom: 60vh;
 }
 
 
-/* Night Babka */
-
 .brand {
+
     font-family: Arial, sans-serif;
 
-    font-size: 12px;
+    font-size: 11px;
 
     letter-spacing: 5px;
 
     color: #555;
+
 }
 
 
-/* Заголовок */
-
 h1 {
-    margin-top: 25px;
-    margin-bottom: 18vh;
 
-    font-size: clamp(38px, 9vw, 72px);
+    margin-top: 22px;
+
+    margin-bottom: 13vh;
+
+    font-size: clamp(38px, 9vw, 70px);
 
     font-weight: normal;
 
     letter-spacing: 7px;
 
-    color: #cfcfcf;
+    color: #ccc;
+
 }
 
 
-/* Строки истории */
+/* ТЕКСТ */
 
 .story-line {
 
-    font-size: clamp(20px, 4.5vw, 29px);
+    font-size: clamp(20px, 4.5vw, 28px);
 
-    line-height: 1.85;
+    line-height: 1.8;
 
-    margin-bottom: 1.4em;
+    margin-bottom: 1.15em;
 
     opacity: 0;
 
-    transform: translateY(25px);
+    transform: translateY(12px);
 
     transition:
-        opacity 1.8s ease,
-        transform 1.8s ease,
-        color 2s ease;
+        opacity .9s ease,
+        transform .9s ease,
+        color 1.5s ease;
 }
 
 
@@ -147,163 +152,181 @@ h1 {
     opacity: 1;
 
     transform: translateY(0);
+
 }
 
 
-/* Особые строки */
-
 .whisper {
 
-    color: #999;
+    color: #888;
 
     font-style: italic;
+
 }
 
 
 .danger {
 
     color: #aaa;
+
 }
 
 
-/* Собака */
+/* СЦЕНА С СОБАКОЙ */
 
-#dog {
+#dogScene {
 
     position: fixed;
 
     left: 50%;
 
-    bottom: 9vh;
+    bottom: 8vh;
 
-    width: 100px;
+    width: 230px;
 
-    height: 62px;
-
-    background: #050505;
-
-    border-radius: 50%;
+    height: 180px;
 
     transform:
         translateX(-50%)
-        scale(0.7);
+        translateY(20px)
+        scale(.85);
 
     opacity: 0;
 
     transition:
-        opacity 3s ease,
-        transform 3s ease;
+        opacity 4s ease,
+        transform 4s ease;
 
-    box-shadow:
-        0 28px 0 -17px #050505;
-
-    z-index: 2;
-}
-
-
-/* Уши */
-
-#dog::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 30px;
-    height: 35px;
-
-    left: 4px;
-    top: -13px;
-
-    background: #050505;
-
-    transform: rotate(-25deg);
+    pointer-events: none;
 
 }
 
 
-#dog::after {
+#dogScene.visible {
 
-    content: "";
-
-    position: absolute;
-
-    width: 30px;
-    height: 35px;
-
-    right: 4px;
-    top: -13px;
-
-    background: #050505;
-
-    transform: rotate(25deg);
-
-}
-
-
-/* Глаза */
-
-#dog-eyes {
-
-    position: absolute;
-
-    width: 7px;
-    height: 7px;
-
-    left: 25px;
-    top: 25px;
-
-    background: #777;
-
-    border-radius: 50%;
-
-    box-shadow:
-        43px 0 #777,
-        0 0 8px #777,
-        43px 0 8px #777;
-}
-
-
-/* Появление собаки */
-
-#dog.visible {
-
-    opacity: 0.95;
+    opacity: .92;
 
     transform:
         translateX(-50%)
+        translateY(0)
         scale(1);
+
 }
 
 
-/* Финальная фраза */
+/* СИЛУЭТ */
+
+#dog {
+
+    width: 230px;
+
+    height: 180px;
+
+    overflow: visible;
+
+    filter:
+        drop-shadow(0 0 5px rgba(0,0,0,.8));
+
+}
+
+
+/* глаза */
+
+.eye {
+
+    fill: #777;
+
+    filter:
+        drop-shadow(0 0 5px #777);
+
+}
+
+
+/* лёгкое дыхание */
+
+#dogBody {
+
+    transform-origin: 115px 145px;
+
+    animation:
+        breathing 4s ease-in-out infinite;
+
+}
+
+@keyframes breathing {
+
+    0%,100% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        transform: scaleY(1.018);
+    }
+
+}
+
+
+/* ФИНАЛ */
 
 #ending {
 
-    margin-top: 25vh;
+    margin-top: 22vh;
 
-    padding-top: 12vh;
+    padding-top: 10vh;
 
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top:
+        1px solid rgba(255,255,255,.05);
 
-    font-size: clamp(18px, 4vw, 24px);
+    font-size:
+        clamp(18px, 4vw, 24px);
 
     line-height: 1.8;
 
-    color: #777;
+    color: #666;
 
     opacity: 0;
 
-    transition: opacity 5s ease;
+    transition:
+        opacity 3s ease;
+
 }
 
 
 #ending.visible {
 
     opacity: 1;
-}
-</style>
 
+}
+
+
+/* затемнение перед финалом */
+
+#darkness {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: #000;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 3s ease;
+
+    z-index: 10;
+
+}
+
+
+#darkness.dark {
+
+    opacity: .35;
+
+}
+
+</style>
 </head>
 
 
@@ -314,60 +337,195 @@ h1 {
 
 <div id="fog"></div>
 
-<div id="dog">
-    <div id="dog-eyes"></div>
+<div id="darkness"></div>
+
+
+<!-- СОБАКА -->
+
+<div id="dogScene">
+
+<svg id="dog"
+     viewBox="0 0 230 180"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <!-- тело -->
+
+    <g id="dogBody"
+       fill="#050505"
+       stroke="#090909"
+       stroke-width="3">
+
+        <!-- туловище -->
+
+        <ellipse
+            cx="115"
+            cy="130"
+            rx="72"
+            ry="42"/>
+
+
+        <!-- грудь -->
+
+        <ellipse
+            cx="108"
+            cy="110"
+            rx="42"
+            ry="55"/>
+
+
+        <!-- голова -->
+
+        <ellipse
+            cx="115"
+            cy="72"
+            rx="48"
+            ry="43"/>
+
+
+        <!-- морда -->
+
+        <ellipse
+            cx="115"
+            cy="91"
+            rx="30"
+            ry="23"/>
+
+
+        <!-- левое ухо -->
+
+        <path
+            d="
+            M80 48
+            Q57 8 68 2
+            Q88 10 101 48
+            Z"/>
+
+
+        <!-- правое ухо -->
+
+        <path
+            d="
+            M150 48
+            Q173 8 162 2
+            Q142 10 129 48
+            Z"/>
+
+
+        <!-- передняя левая лапа -->
+
+        <path
+            d="
+            M87 133
+            Q78 150 82 174
+            L98 174
+            L105 137
+            Z"/>
+
+
+        <!-- передняя правая лапа -->
+
+        <path
+            d="
+            M128 137
+            L135 174
+            L151 174
+            Q155 150 143 133
+            Z"/>
+
+
+        <!-- хвост -->
+
+        <path
+            d="
+            M175 125
+            Q213 112 214 80
+            Q214 62 204 65
+            Q201 95 173 103
+            Z"/>
+
+    </g>
+
+
+    <!-- глаза -->
+
+    <circle
+        class="eye"
+        cx="98"
+        cy="70"
+        r="4"/>
+
+    <circle
+        class="eye"
+        cx="132"
+        cy="70"
+        r="4"/>
+
+
+    <!-- нос -->
+
+    <ellipse
+        cx="115"
+        cy="91"
+        rx="7"
+        ry="5"
+        fill="#111"/>
+
+
+</svg>
+
 </div>
 
 
 <main>
 
-    <div class="brand">
-        NIGHT BABKA
-    </div>
+<div class="brand">
+    NIGHT BABKA
+</div>
 
 
-    <h1>
-        АККУРАТНЕЕ
-    </h1>
+<h1>
+    АККУРАТНЕЕ
+</h1>
 
 
-    <div id="story"></div>
+<div id="story"></div>
 
 
-    <div id="ending">
+<div id="ending">
 
-        P.S. Я тогда ещё не знал,
-        кого именно он просил меня остерегаться…
+P.S. Я тогда ещё не знал,
+кого именно он просил меня остерегаться…
 
-    </div>
+</div>
 
 </main>
 
 
 <script>
 
-
-/* Текст истории */
+/* =========================
+   ИСТОРИЯ
+========================= */
 
 const story = [
 
-    "Я вышел из-за угла и, идя по двору, навстречу мне быстро прошёл человек.",
+"Я вышел из-за угла и, идя по двору, навстречу мне быстро прошёл человек.",
 
-    "Я узнал его лицо.",
+"Я узнал его лицо.",
 
-    "Это было моё лицо.",
+"Это было моё лицо.",
 
-    "Он прошёл мимо и шепнул:",
+"Он прошёл мимо и шепнул:",
 
-    "— Аккуратнее.",
+"— Аккуратнее.",
 
-    "Я обернулся.",
+"Я обернулся.",
 
-    "В темноте, не сводя с меня мутных глаз и тихо рыча, сидел старый дворовый пёс.",
+"В темноте, не сводя с меня мутных глаз и тихо рыча, сидел старый дворовый пёс.",
 
-    "Я замер.",
+"Я замер.",
 
-    "И понял, что страх уже внутри."
+"И понял, что страх уже внутри."
 
 ];
 
@@ -375,39 +533,217 @@ const story = [
 const storyContainer =
     document.getElementById("story");
 
-
 const fog =
     document.getElementById("fog");
 
+const dogScene =
+    document.getElementById("dogScene");
 
-const dog =
-    document.getElementById("dog");
+const ending =
+    document.getElementById("ending");
 
+const darkness =
+    document.getElementById("darkness");
 
 const background =
     document.getElementById("background");
 
 
-const ending =
-    document.getElementById("ending");
-
-
-/* Вывод текста */
-
 let index = 0;
 
+
+/* =========================
+   ЗВУК
+========================= */
+
+let audioStarted = false;
+
+let audioContext;
+
+let master;
+
+let droneOsc;
+
+let droneGain;
+
+
+/*
+   Запускаем звук после первого
+   взаимодействия пользователя.
+*/
+
+function startAudio() {
+
+    if (audioStarted) return;
+
+    audioStarted = true;
+
+    audioContext =
+        new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+
+    master =
+        audioContext.createGain();
+
+
+    master.gain.value = 0.045;
+
+
+    master.connect(
+        audioContext.destination
+    );
+
+
+    /*
+       Низкий постоянный гул
+    */
+
+    droneOsc =
+        audioContext.createOscillator();
+
+
+    droneGain =
+        audioContext.createGain();
+
+
+    droneOsc.type = "sine";
+
+    droneOsc.frequency.value = 48;
+
+    droneGain.gain.value = 0.35;
+
+
+    droneOsc.connect(droneGain);
+
+    droneGain.connect(master);
+
+    droneOsc.start();
+
+
+    /*
+       Ещё один очень тихий слой
+    */
+
+    const low =
+        audioContext.createOscillator();
+
+    const lowGain =
+        audioContext.createGain();
+
+
+    low.type = "triangle";
+
+    low.frequency.value = 72;
+
+    lowGain.gain.value = 0.08;
+
+
+    low.connect(lowGain);
+
+    lowGain.connect(master);
+
+    low.start();
+
+}
+
+
+/*
+   Тревожный звук
+*/
+
+function scaryTone() {
+
+    if (!audioContext) return;
+
+
+    const osc =
+        audioContext.createOscillator();
+
+
+    const gain =
+        audioContext.createGain();
+
+
+    osc.type = "sawtooth";
+
+    osc.frequency.setValueAtTime(
+        110,
+        audioContext.currentTime
+    );
+
+
+    osc.frequency.exponentialRampToValueAtTime(
+        42,
+        audioContext.currentTime + 2.5
+    );
+
+
+    gain.gain.setValueAtTime(
+        0,
+        audioContext.currentTime
+    );
+
+
+    gain.gain.linearRampToValueAtTime(
+        0.25,
+        audioContext.currentTime + .8
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        .001,
+        audioContext.currentTime + 3
+    );
+
+
+    osc.connect(gain);
+
+    gain.connect(master);
+
+    osc.start();
+
+    osc.stop(
+        audioContext.currentTime + 3
+    );
+
+}
+
+
+/* =========================
+   ПОКАЗ ТЕКСТА
+========================= */
 
 function showNextLine() {
 
     if (index >= story.length) {
 
+        /*
+           Перед финалом
+        */
+
+        setTimeout(() => {
+
+            scaryTone();
+
+            darkness.classList.add("dark");
+
+        }, 1500);
+
+
         setTimeout(() => {
 
             ending.classList.add("visible");
 
-        }, 3000);
+            darkness.classList.remove("dark");
+
+        }, 4500);
+
 
         return;
+
     }
 
 
@@ -415,19 +751,26 @@ function showNextLine() {
         document.createElement("div");
 
 
-    paragraph.classList.add("story-line");
+    paragraph.className =
+        "story-line";
 
 
     /*
-       Особые строки
+       Шёпот
     */
 
     if (index === 4) {
 
-        paragraph.classList.add("whisper");
+        paragraph.classList.add(
+            "whisper"
+        );
 
     }
 
+
+    /*
+       Более тяжёлые строки
+    */
 
     if (
         index === 1 ||
@@ -436,7 +779,9 @@ function showNextLine() {
         index === 8
     ) {
 
-        paragraph.classList.add("danger");
+        paragraph.classList.add(
+            "danger"
+        );
 
     }
 
@@ -450,11 +795,11 @@ function showNextLine() {
     );
 
 
-    /* Плавное появление */
-
     setTimeout(() => {
 
-        paragraph.classList.add("visible");
+        paragraph.classList.add(
+            "visible"
+        );
 
 
         paragraph.scrollIntoView({
@@ -465,65 +810,67 @@ function showNextLine() {
 
         });
 
-
-    }, 100);
+    }, 50);
 
 
     /*
-       Постепенно появляется туман
+       Атмосфера постепенно темнеет
     */
 
     if (index >= 1) {
 
-        fog.style.opacity = "0.25";
+        fog.style.opacity = ".25";
 
     }
 
 
     if (index >= 3) {
 
-        fog.style.opacity = "0.45";
+        fog.style.opacity = ".45";
 
     }
 
 
     /*
-       После фразы
-       "Я обернулся."
+       После "Я обернулся"
     */
 
     if (index === 5) {
 
-        fog.style.opacity = "0.7";
+        fog.style.opacity = ".7";
 
     }
 
 
     /*
-       Появление собаки
+       Появляется собака
     */
 
     if (index === 6) {
 
         setTimeout(() => {
 
-            dog.classList.add("visible");
+            dogScene.classList.add(
+                "visible"
+            );
 
-        }, 1000);
+            scaryTone();
+
+        }, 700);
 
     }
 
 
     /*
-       Последняя часть
+       Последние строки
     */
 
     if (index >= 7) {
 
-        fog.style.opacity = "0.9";
+        fog.style.opacity = "1";
 
         background.style.background =
-            "#020202";
+            "#010101";
 
     }
 
@@ -532,31 +879,32 @@ function showNextLine() {
 
 
     /*
-       Пауза между абзацами
+       Скорость текста.
+       Теперь заметно быстрее.
     */
 
-    let delay = 3500;
+    let delay = 2200;
 
 
     /*
        Перед "Аккуратнее"
-       делаем паузу подольше
+       небольшая пауза
     */
 
     if (index === 4) {
 
-        delay = 5000;
+        delay = 3000;
 
     }
 
 
     /*
-       Перед собакой ещё длиннее
+       Перед появлением собаки
     */
 
     if (index === 6) {
 
-        delay = 5000;
+        delay = 3200;
 
     }
 
@@ -569,18 +917,34 @@ function showNextLine() {
 }
 
 
+/* =========================
+   ЗАПУСК
+========================= */
+
+
 /*
-   Начало истории
+   Любое нажатие запускает звук.
+*/
+
+document.addEventListener(
+    "click",
+    startAudio,
+    { once: true }
+);
+
+
+/*
+   Первый клик по странице
+   запускает музыку,
+   сама история стартует сразу.
 */
 
 setTimeout(
     showNextLine,
-    2500
+    1200
 );
 
-
 </script>
-
 
 </body>
 </html>
