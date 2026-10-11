@@ -1,950 +1,273 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>АККУРАТНЕЕ — Night Babka</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08090c">
+<title>Линия взгляда — NIGHT BABKA</title>
 <style>
-* {
-    box-sizing: border-box;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    background: #020202;
-    color: #d0d0d0;
-}
-
-body {
-    font-family: Georgia, "Times New Roman", serif;
-    overflow-x: hidden;
-}
-
-/* ФОН */
-
-#background {
-    position: fixed;
-    inset: 0;
-    z-index: -5;
-
-    background:
-        radial-gradient(
-            ellipse at 50% 45%,
-            #151515 0%,
-            #070707 45%,
-            #010101 100%
-        );
-
-    transition: 4s ease;
-}
-
-
-/* ТУМАН */
-
-#fog {
-    position: fixed;
-    inset: -30%;
-    z-index: -3;
-
-    opacity: 0;
-
-    background:
-        radial-gradient(
-            ellipse at 25% 65%,
-            rgba(150,150,150,.08),
-            transparent 35%
-        ),
-        radial-gradient(
-            ellipse at 75% 45%,
-            rgba(130,130,130,.06),
-            transparent 35%
-        );
-
-    filter: blur(25px);
-
-    transition: opacity 4s ease;
-
-    animation: fogMove 20s ease-in-out infinite alternate;
-}
-
-@keyframes fogMove {
-
-    from {
-        transform: translateX(-4%);
-    }
-
-    to {
-        transform: translateX(4%);
-    }
-
-}
-
-
-/* КОНТЕНТ */
-
-main {
-
-    width: min(760px, calc(100% - 40px));
-
-    margin: auto;
-
-    padding-top: 15vh;
-    padding-bottom: 60vh;
-}
-
-
-.brand {
-
-    font-family: Arial, sans-serif;
-
-    font-size: 11px;
-
-    letter-spacing: 5px;
-
-    color: #555;
-
-}
-
-
-h1 {
-
-    margin-top: 22px;
-
-    margin-bottom: 13vh;
-
-    font-size: clamp(38px, 9vw, 70px);
-
-    font-weight: normal;
-
-    letter-spacing: 7px;
-
-    color: #ccc;
-
-}
-
-
-/* ТЕКСТ */
-
-.story-line {
-
-    font-size: clamp(20px, 4.5vw, 28px);
-
-    line-height: 1.8;
-
-    margin-bottom: 1.15em;
-
-    opacity: 0;
-
-    transform: translateY(12px);
-
-    transition:
-        opacity .9s ease,
-        transform .9s ease,
-        color 1.5s ease;
-}
-
-
-.story-line.visible {
-
-    opacity: 1;
-
-    transform: translateY(0);
-
-}
-
-
-.whisper {
-
-    color: #888;
-
-    font-style: italic;
-
-}
-
-
-.danger {
-
-    color: #aaa;
-
-}
-
-
-/* СЦЕНА С СОБАКОЙ */
-
-#dogScene {
-
-    position: fixed;
-
-    left: 50%;
-
-    bottom: 8vh;
-
-    width: 230px;
-
-    height: 180px;
-
-    transform:
-        translateX(-50%)
-        translateY(20px)
-        scale(.85);
-
-    opacity: 0;
-
-    transition:
-        opacity 4s ease,
-        transform 4s ease;
-
-    pointer-events: none;
-
-}
-
-
-#dogScene.visible {
-
-    opacity: .92;
-
-    transform:
-        translateX(-50%)
-        translateY(0)
-        scale(1);
-
-}
-
-
-/* СИЛУЭТ */
-
-#dog {
-
-    width: 230px;
-
-    height: 180px;
-
-    overflow: visible;
-
-    filter:
-        drop-shadow(0 0 5px rgba(0,0,0,.8));
-
-}
-
-
-/* глаза */
-
-.eye {
-
-    fill: #777;
-
-    filter:
-        drop-shadow(0 0 5px #777);
-
-}
-
-
-/* лёгкое дыхание */
-
-#dogBody {
-
-    transform-origin: 115px 145px;
-
-    animation:
-        breathing 4s ease-in-out infinite;
-
-}
-
-@keyframes breathing {
-
-    0%,100% {
-        transform: scaleY(1);
-    }
-
-    50% {
-        transform: scaleY(1.018);
-    }
-
-}
-
-
-/* ФИНАЛ */
-
-#ending {
-
-    margin-top: 22vh;
-
-    padding-top: 10vh;
-
-    border-top:
-        1px solid rgba(255,255,255,.05);
-
-    font-size:
-        clamp(18px, 4vw, 24px);
-
-    line-height: 1.8;
-
-    color: #666;
-
-    opacity: 0;
-
-    transition:
-        opacity 3s ease;
-
-}
-
-
-#ending.visible {
-
-    opacity: 1;
-
-}
-
-
-/* затемнение перед финалом */
-
-#darkness {
-
-    position: fixed;
-
-    inset: 0;
-
-    background: #000;
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    transition: opacity 3s ease;
-
-    z-index: 10;
-
-}
-
-
-#darkness.dark {
-
-    opacity: .35;
-
-}
-
+:root{--bg:#08090c;--ink:#e7e5e0;--muted:#9a9aa0;--red:#8d2228;--line:rgba(220,220,230,.14)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;color:var(--ink);font-family:Georgia,'Times New Roman',serif;background:radial-gradient(ellipse at 50% 0%,#1a2029 0%,#0c0e13 38%,#07080b 78%);min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:-40%;pointer-events:none;z-index:4;opacity:.11;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.36'/%3E%3C/svg%3E");animation:grain .28s steps(2) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(1%,-1%)}50%{transform:translate(-1%,1%)}75%{transform:translate(1%,1%)}100%{transform:translate(-1%,-1%)}}
+.ambient{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 20%,rgba(0,0,0,.35) 80%);z-index:1}
+header{position:relative;z-index:2;min-height:94vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:7rem 1.3rem 5rem;overflow:hidden}
+header:before{content:"";position:absolute;width:min(78vw,650px);height:min(78vw,650px);border:1px solid rgba(180,190,205,.08);border-radius:50%;box-shadow:0 0 90px rgba(83,102,126,.06),inset 0 0 90px rgba(83,102,126,.04);animation:pulse 8s ease-in-out infinite}
+header:after{content:"";position:absolute;width:min(57vw,470px);height:min(57vw,470px);border:1px solid rgba(180,190,205,.05);border-radius:50%}
+@keyframes pulse{0%,100%{transform:scale(.98);opacity:.55}50%{transform:scale(1.03);opacity:1}}
+.hero{position:relative;z-index:2;max-width:850px}
+.brand{font:600 .7rem/1.5 Arial,sans-serif;letter-spacing:.42em;color:#9b9da5;text-transform:uppercase;margin-bottom:3rem;opacity:0;animation:appear 1.4s .3s forwards}
+h1{font-size:clamp(2.6rem,8vw,6.7rem);line-height:.98;font-weight:400;letter-spacing:.055em;text-transform:uppercase;margin:0;text-shadow:0 0 35px rgba(190,200,220,.1);opacity:0;animation:appear 1.7s .7s forwards}
+.subtitle{font:italic clamp(1rem,2.5vw,1.35rem)/1.6 Georgia,serif;color:#b6b7bc;margin:1.8rem 0 2.7rem;opacity:0;animation:appear 1.5s 1.15s forwards}
+.rule{width:66px;height:1px;background:linear-gradient(90deg,transparent,#8e353b,transparent);margin:0 auto 2.6rem;opacity:0;animation:appear 1.5s 1.3s forwards}
+.start{display:inline-flex;align-items:center;gap:.75rem;color:#e6e4e0;text-decoration:none;border:1px solid rgba(210,215,225,.28);padding:.9rem 1.35rem;font:600 .68rem Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;transition:.35s;opacity:0;animation:appear 1.5s 1.6s forwards;background:rgba(8,9,12,.3)}
+.start:hover{background:rgba(115,31,38,.24);border-color:#8d4248;letter-spacing:.27em}
+@keyframes appear{to{opacity:1;transform:translateY(0)}from{opacity:0;transform:translateY(16px)}}
+.controls{position:fixed;right:1rem;top:1rem;z-index:10;display:flex;gap:.5rem}
+.control{border:1px solid var(--line);background:rgba(8,9,12,.78);color:#c7c8ce;padding:.65rem .8rem;font:600 .62rem Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(10px)}
+main{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:0 1.35rem 7rem}
+.story-head{text-align:center;padding:2rem 0 3rem;border-bottom:1px solid var(--line);margin-bottom:3.3rem}
+.story-head span{font:600 .65rem Arial,sans-serif;letter-spacing:.34em;color:#8d929d;text-transform:uppercase}
+.story-head h2{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:400;letter-spacing:.08em;margin:1rem 0 .8rem}
+.story-head p{color:var(--muted);font-style:italic;margin:0;font-size:1rem}
+.story p{font-size:clamp(1.08rem,2.2vw,1.23rem);line-height:1.95;letter-spacing:.005em;margin:0 0 1.5em;color:#d6d5d2;opacity:0;transform:translateY(17px);transition:opacity 1s ease,transform 1s ease}
+.story p.visible{opacity:1;transform:translateY(0)}
+.story p.dialogue{color:#f0e8e4}
+.story p.emphasis{color:#f1e6e3;text-shadow:0 0 22px rgba(130,37,43,.18)}
+.story p:last-child{margin-top:2.2rem;font-style:italic;color:#e4c6c4}
+.endmark{text-align:center;margin:4rem 0 0;color:#777d87;font:600 .62rem Arial,sans-serif;letter-spacing:.45em}
+.endmark:before{content:"";display:block;width:54px;height:1px;background:#71343a;margin:0 auto 1.5rem}
+footer{position:relative;z-index:2;text-align:center;padding:1.8rem 1rem 2.5rem;border-top:1px solid var(--line);color:#686d77;font:600 .62rem Arial,sans-serif;letter-spacing:.3em}
+footer strong{color:#a2a4ab;font-weight:600}
+.progress{position:fixed;left:0;top:0;height:2px;background:#9a333b;width:0;z-index:20;box-shadow:0 0 10px rgba(154,51,59,.6)}
+@media(max-width:600px){header{min-height:88vh;padding-top:5rem}.brand{margin-bottom:2.4rem}.subtitle{margin:1.5rem 0 2.2rem}.controls{right:.6rem;top:.6rem}.control{padding:.6rem .65rem}.story p{line-height:1.85}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.story p{opacity:1;transform:none}}
 </style>
 </head>
-
-
 <body>
-
-
-<div id="background"></div>
-
-<div id="fog"></div>
-
-<div id="darkness"></div>
-
-
-<!-- СОБАКА -->
-
-<div id="dogScene">
-
-<svg id="dog"
-     viewBox="0 0 230 180"
-     xmlns="http://www.w3.org/2000/svg">
-
-    <!-- тело -->
-
-    <g id="dogBody"
-       fill="#050505"
-       stroke="#090909"
-       stroke-width="3">
-
-        <!-- туловище -->
-
-        <ellipse
-            cx="115"
-            cy="130"
-            rx="72"
-            ry="42"/>
-
-
-        <!-- грудь -->
-
-        <ellipse
-            cx="108"
-            cy="110"
-            rx="42"
-            ry="55"/>
-
-
-        <!-- голова -->
-
-        <ellipse
-            cx="115"
-            cy="72"
-            rx="48"
-            ry="43"/>
-
-
-        <!-- морда -->
-
-        <ellipse
-            cx="115"
-            cy="91"
-            rx="30"
-            ry="23"/>
-
-
-        <!-- левое ухо -->
-
-        <path
-            d="
-            M80 48
-            Q57 8 68 2
-            Q88 10 101 48
-            Z"/>
-
-
-        <!-- правое ухо -->
-
-        <path
-            d="
-            M150 48
-            Q173 8 162 2
-            Q142 10 129 48
-            Z"/>
-
-
-        <!-- передняя левая лапа -->
-
-        <path
-            d="
-            M87 133
-            Q78 150 82 174
-            L98 174
-            L105 137
-            Z"/>
-
-
-        <!-- передняя правая лапа -->
-
-        <path
-            d="
-            M128 137
-            L135 174
-            L151 174
-            Q155 150 143 133
-            Z"/>
-
-
-        <!-- хвост -->
-
-        <path
-            d="
-            M175 125
-            Q213 112 214 80
-            Q214 62 204 65
-            Q201 95 173 103
-            Z"/>
-
-    </g>
-
-
-    <!-- глаза -->
-
-    <circle
-        class="eye"
-        cx="98"
-        cy="70"
-        r="4"/>
-
-    <circle
-        class="eye"
-        cx="132"
-        cy="70"
-        r="4"/>
-
-
-    <!-- нос -->
-
-    <ellipse
-        cx="115"
-        cy="91"
-        rx="7"
-        ry="5"
-        fill="#111"/>
-
-
-</svg>
-
+<div class="progress" id="progress"></div>
+<div class="ambient"></div>
+<div class="controls">
+<button class="control" id="sound">♫ звук: выкл.</button>
+<button class="control" id="contrast">◐ свет</button>
 </div>
 
-
-<main>
-
-<div class="brand">
-    NIGHT BABKA
+<header id="top">
+<div class="hero">
+<div class="brand">NIGHT BABKA · ORIGINAL HORROR</div>
+<h1>Линия<br>взгляда</h1>
+<p class="subtitle">Иногда лучше не знать, кто смотрит в ответ.</p>
+<div class="rule"></div>
+<a class="start" href="#story">Начать чтение <span>↓</span></a>
 </div>
+</header>
 
-
-<h1>
-    АККУРАТНЕЕ
-</h1>
-
-
-<div id="story"></div>
-
-
-<div id="ending">
-
-P.S. Я тогда ещё не знал,
-кого именно он просил меня остерегаться…
-
+<main id="story">
+<div class="story-head">
+<span>Night Babka представляет</span>
+<h2>ЛИНИЯ ВЗГЛЯДА</h2>
+<p>Иногда лучше не знать, кто смотрит в ответ.</p>
 </div>
+<article class="story" id="text">
 
+<p>Мне было двадцать лет. Мы с матерью жили в новой квартире. Отец умер несколько лет назад. Всю жизнь он проработал на рыболовных судах, подолгу пропадая в море.</p>
+<p>Когда я был маленьким, отец иногда брал меня с собой на берег. Мы смотрели в бинокль на корабли, уходящие к горизонту. Он объяснял, как различать суда, и позволял мне самому крутить колёсико фокусировки.</p>
+<p>Однажды, когда я слишком долго рассматривал береговые домики, отец забрал у меня бинокль.</p>
+<p class="dialogue">— К соседям не подглядывай. Нехорошо это.</p>
+<p>Я тогда только пожал плечами. В детстве такие запреты редко воспринимаешь всерьёз.</p>
+<p>После смерти отца бинокль долго лежал среди старых вещей. Я нашёл его, когда разбирал коробки после переезда. Протёр стёкла рукавом, покрутил в руках и положил на подоконник.</p>
+<p>Вечером мне стало скучно.</p>
+<p>Сначала я рассматривал двор. Машины на парковке, детскую площадку, людей, возвращавшихся с работы. Потом переключился на окна соседнего дома.</p>
+<p>Ничего особенного. Женщина ругалась на кота так, будто тот задолжал ей денег. В другой квартире кто-то сосредоточенно танцевал перед зеркалом. Двое курили на балконе, почти не глядя друг на друга.</p>
+<p>Я усмехнулся и перевёл бинокль дальше.</p>
+<p>В одной из квартир я заметил молодую девушку. Она сидела за столом, читала что-то на телефоне, потом встала и подошла к небольшому аквариуму. Внутри плавала черепаха.</p>
+<p>Девушка сменила воду, насыпала корм и присела рядом, наблюдая, как черепаха медленно подплывает к еде.</p>
+<p>Я задержался на этом окне чуть дольше, чем на остальных, а потом опустил бинокль.</p>
+<p>В следующие дни я иногда снова попадал на ту же квартиру. Девушка читала, готовила, ходила по комнате. Обычная жизнь незнакомого человека, за которой я наблюдал с расстояния.</p>
+<p>Я не знал её имени и никогда с ней не разговаривал.</p>
+<p>В один из дней, около полудня, я снова взялся за бинокль. Девушка лежала на кровати, повернувшись лицом к стене. Рядом с подушкой лежала раскрытая книга.</p>
+<p>Я уже собирался опустить бинокль, когда дверь в комнату открылась.</p>
+<p>На пороге появился человек. Дверь за спиной закрылась, и фигура направилась к кровати.</p>
+<p>Я снова поднёс бинокль к глазам.</p>
+<p>Человек остановился у самого изножья кровати. Стоял ровно, руки свободно свисали вдоль тела. Ни слова, ни движения.</p>
+<p>Девушка лежала неподвижно, лицом к стене.</p>
+<p>Я ждал, что человек заговорит с ней. Может быть, наклонится, коснётся плеча или хотя бы сядет на край кровати. Но ничего не происходило.</p>
+<p>Я чуть повернул бинокль, пытаясь разглядеть лицо. Лица не было видно, хотя комната освещалась. Фигура не смотрела по сторонам. Взгляд был направлен вниз, на девушку.</p>
+<p>Я опустил бинокль и взглянул на комнату невооружённым глазом. Фигура расплылась, превратившись в тёмное пятно у кровати. Я снова поднёс бинокль.</p>
+<p>Человек стоял там же.</p>
+<p>Я не заметил, как прошло ещё какое-то время. В какой-то момент мне захотелось отвести взгляд, но я продолжал смотреть. Было ощущение, что стоит отвернуться, и я пропущу что-то важное.</p>
+<p>За окном прошумела машина. Где-то хлопнула дверь. В соседнем окне зажёгся свет.</p>
+<p>А человек всё стоял.</p>
+<p>Наконец фигура повернулась к двери. Сделала несколько шагов и скрылась из виду.</p>
+<p>Я ещё немного смотрел на пустое место у кровати. Потом опустил бинокль.</p>
+<p>Книга всё так же лежала раскрытой рядом с подушкой.</p>
+<p>Мне стало не по себе.</p>
+<p>Несколько дней я старался об этом не думать. Мало ли кто мог зайти к девушке.</p>
+<p>Но однажды ближе к ночи рука сама потянулась к биноклю.</p>
+<p>В соседнем доме ещё горели окна. Кто-то ходил по кухне, кто-то сидел перед телевизором. Я медленно переводил бинокль с одного этажа на другой, задерживаясь на освещённых комнатах.</p>
+<p>Потом остановился на знакомом окне.</p>
+<p>Девушка лежала на кровати, отвернувшись к стене. В комнате горел неяркий свет. Теперь было видно, что она не шевелится.</p>
+<p>У самого изножья кровати стоял человек.</p>
+<p>Тот самый.</p>
+<p>Я узнал фигуру по росту и неподвижной позе. Лица не было видно, хотя комната освещалась.</p>
+<p>Я крепче прижал бинокль к глазам.</p>
+<p>Человек медленно повернул голову.</p>
+<p class="emphasis">Прямо в мою сторону.</p>
+<p>Я замер.</p>
+<p>Расстояние между нашими окнами было приличным, но мне показалось, что взгляд направлен точно на меня. Не на дом, не на окно вообще. На меня.</p>
+<p>Я машинально опустил бинокль.</p>
+<p>В комнате стало тихо. Я слышал собственное дыхание и гудение настольной лампы. В тёмном стекле окна отражались лампа и моё лицо.</p>
+<p>Я снова посмотрел в бинокль.</p>
+<p>Человек всё ещё стоял у кровати. Голова оставалась повёрнутой в мою сторону.</p>
+<p>А потом фигура подняла руку и помахала мне.</p>
+<p class="emphasis">Я ответил.</p>
+<p>Просто поднял ладонь и коротко махнул в ответ, даже не успев подумать, что делаю.</p>
+<p>Я резко отпрянул от окна. Бинокль ударился о подоконник. Несколько секунд я просто стоял посреди комнаты, глядя на собственную руку.</p>
+<p>Потом задёрнул шторы.</p>
+<p>В ту ночь я долго не мог уснуть.</p>
+<p>Следующие дни я старался не подходить к окну. Бинокль убрал в ящик, а шторы в комнате почти не открывал.</p>
+<p>Сначала я убеждал себя, что мне показалось.</p>
+<p>Но потом я обратил внимание на соседнюю квартиру.</p>
+<p>Окно девушки больше не загоралось по вечерам. Исчез и мягкий свет аквариума, который раньше был заметен даже издалека.</p>
+<p>Я решил, что она уехала.</p>
+<p>В домовом чате кто-то спросил, давно ли видели девушку из дома напротив. Другие ответили, что, возможно, она у родственников или просто куда-то уехала. На этом разговор закончился.</p>
+<p>Я не читал переписку и не возвращался к этой истории.</p>
+<p>Как-то вечером шёл дождь. Я зашёл в ванную умыться и остановился перед зеркалом.</p>
+<p>Всё было как обычно. Усталое лицо, растрёпанные волосы, тусклый свет над раковиной.</p>
+<p>Я поднял руку, провёл ладонью по лицу. Отражение повторило движение.</p>
+<p>Я уже собирался отвернуться, когда заметил, что отражение подняло указательный палец к губам.</p>
+<p>Жест был отчётливым.</p>
+<p class="emphasis">Тише.</p>
+<p>Моя рука в это время оставалась опущенной.</p>
+<p>Я резко обернулся. За спиной никого не было. Только приоткрытая дверь и тёмный коридор.</p>
+<p>Я снова посмотрел в зеркало.</p>
+<p>Отражение стояло неподвижно. Я медленно поднял руку. Оно повторило движение.</p>
+<p>Я опустил ладонь. Отражение сделало то же самое.</p>
+<p>Больше ничего не произошло.</p>
+<p>На следующее утро в домовом чате появилось сообщение. Девушку нашли мёртвой.</p>
+<p>Я несколько раз перечитал короткую строчку, но слова не менялись.</p>
+<p>Весь день я ходил по квартире, стараясь занять себя чем угодно. Позже я всё-таки достал бинокль.</p>
+<p>Окно соседней квартиры было тёмным. В комнате больше не было аквариума.</p>
+<p>Я убрал бинокль обратно в ящик.</p>
+<p>Почему-то мысль о том, что черепаху, скорее всего, забрали, принесла мне облегчение.</p>
+<p>После этого я больше не смотрел в чужие окна.</p>
+<p>И в зеркало ванной старался не заглядывать.</p>
+<p>Мать пришла с работы позже обычного. Поставила сумку в прихожей, посмотрела на меня и нахмурилась.</p>
+<p class="dialogue">— Ты чего такой бледный?</p>
+<p>Я хотел ответить, что просто не выспался. Но вместо этого почему-то начал говорить о другом.</p>
+<p>— Мам, я…</p>
+<p>Она остановилась у двери в комнату.</p>
+<p>За её спиной, в зеркале прихожей, стоял высокий силуэт.</p>
+<p>Я узнал его сразу.</p>
+<p>Фигура медленно повернула голову и посмотрела прямо на меня.</p>
+<p>Я зажмурился.</p>
+<p class="dialogue">— Коль?</p>
+<p>Я открыл глаза.</p>
+<p>В зеркале отражалась пустая прихожая. Только мать, дверной проём и тусклый свет.</p>
+<p class="dialogue">— Ты чего? — спросила она.</p>
+<p>Я посмотрел на зеркало ещё раз.</p>
+<p>Ничего.</p>
+<p class="dialogue">— Ничего. Просто устал.</p>
+<p>Мать пожала плечами и ушла на кухню.</p>
+<p>Я остался в прихожей один.</p>
+<p class="emphasis">И впервые испугался не того, что могу там увидеть.</p>
+<p class="emphasis">А того, что однажды снова отвечу.</p>
+
+</article>
+<div class="endmark">NIGHT BABKA</div>
 </main>
 
+<footer><strong>NIGHT BABKA</strong> · ИСТОРИИ, КОТОРЫЕ ЛУЧШЕ НЕ ЧИТАТЬ НОЧЬЮ</footer>
 
 <script>
-
-/* =========================
-   ИСТОРИЯ
-========================= */
-
-const story = [
-
-"Я вышел из-за угла и, идя по двору, навстречу мне быстро прошёл человек.",
-
-"Я узнал его лицо.",
-
-"Это было моё лицо.",
-
-"Он прошёл мимо и шепнул:",
-
-"— Аккуратнее.",
-
-"Я обернулся.",
-
-"В темноте, не сводя с меня мутных глаз и тихо рыча, сидел старый дворовый пёс.",
-
-"Я замер.",
-
-"И понял, что страх уже внутри."
-
-];
-
-
-const storyContainer =
-    document.getElementById("story");
-
-const fog =
-    document.getElementById("fog");
-
-const dogScene =
-    document.getElementById("dogScene");
-
-const ending =
-    document.getElementById("ending");
-
-const darkness =
-    document.getElementById("darkness");
-
-const background =
-    document.getElementById("background");
-
-
-let index = 0;
-
-
-/* =========================
-   ЗВУК
-========================= */
-
-let audioStarted = false;
-
-let audioContext;
-
-let master;
-
-let droneOsc;
-
-let droneGain;
-
-
-/*
-   Запускаем звук после первого
-   взаимодействия пользователя.
-*/
-
-function startAudio() {
-
-    if (audioStarted) return;
-
-    audioStarted = true;
-
-    audioContext =
-        new (
-            window.AudioContext ||
-            window.webkitAudioContext
-        )();
-
-
-    master =
-        audioContext.createGain();
-
-
-    master.gain.value = 0.045;
-
-
-    master.connect(
-        audioContext.destination
-    );
-
-
-    /*
-       Низкий постоянный гул
-    */
-
-    droneOsc =
-        audioContext.createOscillator();
-
-
-    droneGain =
-        audioContext.createGain();
-
-
-    droneOsc.type = "sine";
-
-    droneOsc.frequency.value = 48;
-
-    droneGain.gain.value = 0.35;
-
-
-    droneOsc.connect(droneGain);
-
-    droneGain.connect(master);
-
-    droneOsc.start();
-
-
-    /*
-       Ещё один очень тихий слой
-    */
-
-    const low =
-        audioContext.createOscillator();
-
-    const lowGain =
-        audioContext.createGain();
-
-
-    low.type = "triangle";
-
-    low.frequency.value = 72;
-
-    lowGain.gain.value = 0.08;
-
-
-    low.connect(lowGain);
-
-    lowGain.connect(master);
-
-    low.start();
-
+const paragraphs=[...document.querySelectorAll('.story p')];
+if('IntersectionObserver' in window){
+ const io=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}
+ }),{threshold:.08,rootMargin:'0px 0px -4% 0px'});
+ paragraphs.forEach(p=>io.observe(p));
+}else paragraphs.forEach(p=>p.classList.add('visible'));
+
+const progress=document.getElementById('progress');
+function updateProgress(){
+ const max=document.documentElement.scrollHeight-innerHeight;
+ progress.style.width=(max>0?scrollY/max*100:0)+'%';
+}
+addEventListener('scroll',updateProgress,{passive:true});
+updateProgress();
+
+let audioCtx=null,osc1=null,osc2=null,gain=null,filter=null,noiseSource=null,audioOn=false;
+
+function startAudio(){
+ audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+ gain=audioCtx.createGain();
+ gain.gain.value=.0001;
+ filter=audioCtx.createBiquadFilter();
+ filter.type='lowpass';
+ filter.frequency.value=170;
+ osc1=audioCtx.createOscillator();
+ osc2=audioCtx.createOscillator();
+ osc1.type='sine';
+ osc2.type='triangle';
+ osc1.frequency.value=48;
+ osc2.frequency.value=51.5;
+ const g2=audioCtx.createGain();
+ g2.gain.value=.18;
+ osc1.connect(filter);
+ osc2.connect(g2);
+ g2.connect(filter);
+ filter.connect(gain);
+ gain.connect(audioCtx.destination);
+ osc1.start();
+ osc2.start();
+ const n=audioCtx.createBuffer(1,audioCtx.sampleRate*2,audioCtx.sampleRate);
+ const d=n.getChannelData(0);
+ for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*.22;
+ noiseSource=audioCtx.createBufferSource();
+ noiseSource.buffer=n;
+ noiseSource.loop=true;
+ const nf=audioCtx.createBiquadFilter();
+ nf.type='lowpass';
+ nf.frequency.value=260;
+ const ng=audioCtx.createGain();
+ ng.gain.value=.09;
+ noiseSource.connect(nf);
+ nf.connect(ng);
+ ng.connect(gain);
+ noiseSource.start();
+ gain.gain.setTargetAtTime(.32,audioCtx.currentTime,1.8);
 }
 
-
-/*
-   Тревожный звук
-*/
-
-function scaryTone() {
-
-    if (!audioContext) return;
-
-
-    const osc =
-        audioContext.createOscillator();
-
-
-    const gain =
-        audioContext.createGain();
-
-
-    osc.type = "sawtooth";
-
-    osc.frequency.setValueAtTime(
-        110,
-        audioContext.currentTime
-    );
-
-
-    osc.frequency.exponentialRampToValueAtTime(
-        42,
-        audioContext.currentTime + 2.5
-    );
-
-
-    gain.gain.setValueAtTime(
-        0,
-        audioContext.currentTime
-    );
-
-
-    gain.gain.linearRampToValueAtTime(
-        0.25,
-        audioContext.currentTime + .8
-    );
-
-
-    gain.gain.exponentialRampToValueAtTime(
-        .001,
-        audioContext.currentTime + 3
-    );
-
-
-    osc.connect(gain);
-
-    gain.connect(master);
-
-    osc.start();
-
-    osc.stop(
-        audioContext.currentTime + 3
-    );
-
-}
-
-
-/* =========================
-   ПОКАЗ ТЕКСТА
-========================= */
-
-function showNextLine() {
-
-    if (index >= story.length) {
-
-        /*
-           Перед финалом
-        */
-
-        setTimeout(() => {
-
-            scaryTone();
-
-            darkness.classList.add("dark");
-
-        }, 1500);
-
-
-        setTimeout(() => {
-
-            ending.classList.add("visible");
-
-            darkness.classList.remove("dark");
-
-        }, 4500);
-
-
-        return;
-
-    }
-
-
-    const paragraph =
-        document.createElement("div");
-
-
-    paragraph.className =
-        "story-line";
-
-
-    /*
-       Шёпот
-    */
-
-    if (index === 4) {
-
-        paragraph.classList.add(
-            "whisper"
-        );
-
-    }
-
-
-    /*
-       Более тяжёлые строки
-    */
-
-    if (
-        index === 1 ||
-        index === 2 ||
-        index === 7 ||
-        index === 8
-    ) {
-
-        paragraph.classList.add(
-            "danger"
-        );
-
-    }
-
-
-    paragraph.textContent =
-        story[index];
-
-
-    storyContainer.appendChild(
-        paragraph
-    );
-
-
-    setTimeout(() => {
-
-        paragraph.classList.add(
-            "visible"
-        );
-
-
-        paragraph.scrollIntoView({
-
-            behavior: "smooth",
-
-            block: "center"
-
-        });
-
-    }, 50);
-
-
-    /*
-       Атмосфера постепенно темнеет
-    */
-
-    if (index >= 1) {
-
-        fog.style.opacity = ".25";
-
-    }
-
-
-    if (index >= 3) {
-
-        fog.style.opacity = ".45";
-
-    }
-
-
-    /*
-       После "Я обернулся"
-    */
-
-    if (index === 5) {
-
-        fog.style.opacity = ".7";
-
-    }
-
-
-    /*
-       Появляется собака
-    */
-
-    if (index === 6) {
-
-        setTimeout(() => {
-
-            dogScene.classList.add(
-                "visible"
-            );
-
-            scaryTone();
-
-        }, 700);
-
-    }
-
-
-    /*
-       Последние строки
-    */
-
-    if (index >= 7) {
-
-        fog.style.opacity = "1";
-
-        background.style.background =
-            "#010101";
-
-    }
-
-
-    index++;
-
-
-    /*
-       Скорость текста.
-       Теперь заметно быстрее.
-    */
-
-    let delay = 2200;
-
-
-    /*
-       Перед "Аккуратнее"
-       небольшая пауза
-    */
-
-    if (index === 4) {
-
-        delay = 3000;
-
-    }
-
-
-    /*
-       Перед появлением собаки
-    */
-
-    if (index === 6) {
-
-        delay = 3200;
-
-    }
-
-
-    setTimeout(
-        showNextLine,
-        delay
-    );
-
-}
-
-
-/* =========================
-   ЗАПУСК
-========================= */
-
-
-/*
-   Любое нажатие запускает звук.
-*/
-
-document.addEventListener(
-    "click",
-    startAudio,
-    { once: true }
-);
-
-
-/*
-   Первый клик по странице
-   запускает музыку,
-   сама история стартует сразу.
-*/
-
-setTimeout(
-    showNextLine,
-    1200
-);
-
+document.getElementById('sound').addEventListener('click',async()=>{
+ const b=document.getElementById('sound');
+ if(!audioOn){
+  try{startAudio();audioOn=true;b.textContent='♫ звук: вкл.'}
+  catch(e){b.textContent='звук недоступен'}
+ }else{
+  gain.gain.setTargetAtTime(.0001,audioCtx.currentTime,.5);
+  setTimeout(()=>{
+   try{osc1.stop();osc2.stop();noiseSource.stop();audioCtx.close()}catch(e){}
+  },1800);
+  audioOn=false;
+  b.textContent='♫ звук: выкл.';
+ }
+});
+
+document.getElementById('contrast').addEventListener('click',()=>{
+ document.body.classList.toggle('lightmode');
+ const light=document.body.classList.contains('lightmode');
+ document.body.style.setProperty('--ink',light?'#222329':'#e7e5e0');
+ document.body.style.setProperty('--muted',light?'#666872':'#9a9aa0');
+ document.body.style.background=light
+  ?'radial-gradient(ellipse at 50% 0%,#e1e1e0 0%,#c7c9ce 42%,#a8abb2 100%)'
+  :'radial-gradient(ellipse at 50% 0%,#1a2029 0%,#0c0e13 38%,#07080b 78%)';
+ document.querySelectorAll('.story p').forEach(p=>p.style.color=light?'#25262b':'');
+ document.querySelector('.story-head h2').style.color=light?'#25262b':'';
+ document.querySelector('.subtitle').style.color=light?'#50525b':'';
+});
 </script>
-
 </body>
 </html>
